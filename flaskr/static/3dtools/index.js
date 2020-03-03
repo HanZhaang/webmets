@@ -59,6 +59,17 @@ function readObjFile(e) {
   }
 }
 
+function click_swc_input() {
+    document.getElementById("swc_input")
+            .click();
+}
+
+$(document).ready(function(){
+    $('#mask_1').click(function(){
+        $('#swc_input').click();
+    });
+
+});
 
 window.onload = () => {
   document

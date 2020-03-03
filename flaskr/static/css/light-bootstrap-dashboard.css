@@ -11,7 +11,79 @@
 =========================================================
 
  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.*/
- 
+
+*{
+   margin:0;
+   padding:0;
+}
+.nav{
+   background-color:#EEEEEE;
+   height:40px;
+   width:450px;
+   margin:0 auto;
+}
+/*横向一级菜单样式设置*/
+ul{
+   list-style:horizontal;
+}
+ul li{
+   line-height:40px;
+   text-align:center;
+   position:relative;
+}
+a{
+    text-decoration:none;
+	color:#000000;
+	display:block;/*将a行内元素转变成块级元素*/
+	width:90px;
+	height:40px;
+}
+a:hover{
+    background-color:#666666;
+	color:#FFFFFF;
+}
+/*二级下拉菜单样式设置*/
+ul li ul li{
+    float:left;
+	background-color:#EEEEEE;
+}
+ul li ul{
+    position:absolute;
+	top:40px;
+	left:0px;
+	display:none;/*默认状态下或鼠标离开时隐藏*/
+	width:90px;
+}
+/*为了兼容IE7写的CSS样式，但是必须写在a:hover前面*/
+ul li ul li a:link,ul li ul li a:visited{
+    background-color:#EEEEEE;
+}
+ul li ul li a:hover{
+    background-color:#009933;
+}
+/*鼠标滑过一级菜单的元素时显示下拉菜单*/
+ul li:hover ul{
+    display:block;
+}
+
+.inner_button {
+    width: 160px;/*设置按钮宽度*/
+    height: 30px;/*设置按钮高度*/
+    color:white;/*字体颜色*/
+    background-color:#777777;/*按钮背景颜色*/
+    border-radius: 3px;/*让按钮变得圆滑一点*/
+    border-width: 0;/*消去按钮丑的边框*/
+    margin: 0;
+    outline: none;/*取消轮廓*/
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;/*字体设置为楷体*/
+    font-size: 16px;/*设置字体大小*/
+    text-align: left;/*字体居中*/
+    cursor: pointer;/*设置鼠标箭头手势*/
+}
+
+.inner_button:hover{/*鼠标移动时的颜色变化*/
+    background-color: #898989;
+}
 /*      light colors         */
 
 @keyframes spin {
@@ -433,13 +505,13 @@ body>.navbar-collapse .nav li .nav-link {
     opacity: .86;
     border-radius: 4px;
     display: block;
-    padding: 10px 15px;
+    padding: 10px 10px;
 }
 
 .sidebar .nav li .nav-link:hover,
-body>.navbar-collapse .nav li .nav-link:hover {
-    background: rgba(255, 255, 255, 0.13);
-    opacity: 1;
+body>.navbar-collapse .nav li .nav-link {
+    /*鼠标移动时的颜色变化*/
+    background-color: #898989;
 }
 
 .sidebar .nav li .nav-link p,
@@ -462,17 +534,42 @@ body>.navbar-collapse .nav li .nav-link i {
     float: left;
 }
 
-.sidebar .nav li:hover .nav-link,
-body>.navbar-collapse .nav li:hover .nav-link {
-    background: rgba(255, 255, 255, 0.13);
-    opacity: 1;
-}
-
 .sidebar .nav li.active .nav-link,
 body>.navbar-collapse .nav li.active .nav-link {
     color: #FFFFFF;
     opacity: 1;
     background: rgba(255, 255, 255, 0.23);
+}
+
+.sidebar .nav li.active .nav-link,
+body>.navbar-collapse .nav li.active .nav-link {
+    /*鼠标移动时的颜色变化*/
+    background-color: #898989;
+}
+
+ul.choice {
+    list-style:none;
+}
+
+.sidebar .choice .item,
+body>.navbar-collapse .choice .item{
+    float:left;
+    position:relative;
+}
+
+.sidebar .choice .item .sub_choice .sub_item ,
+body>.navbar-collapse .choice .item .sub_choice .sub_item{
+    float:none;
+    background:#EEEEEE;
+    display:none
+}
+
+.sidebar .choice .item .sub_choice,
+body>.navbar-collapse .choice .item .sub_choice {
+    position:absolute;
+    float:none;
+    display:none;
+    background:#EEEEEE
 }
 
 .sidebar .nav li.separator,
