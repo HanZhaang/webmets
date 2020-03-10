@@ -66,6 +66,9 @@
         {"label":"custom","type":7}
       ]
     </script>
+    <script>
+
+    </script>
 </head>
 <body>
     <!-- 顶部div区域，存放横向导航栏 -->
@@ -75,69 +78,56 @@
             <li id="logo">
                 <p>pymets</p>
             </li>
-            <!-- 二级菜单:菜鸟教程 -->
             <li class="dropdown">
-                <a href="http://www.runoob.com/">菜鸟教程</a>
+                <a>Method</a>
                 <ul class="dropdown-content">
                     <li>
-                        <a href="http://www.runoob.com/html/html-tutorial.html">HTML教程</a>
+                        <a onclick="do_post_ch_method('\geometry', 'geometry')">Geometry</a>
                     </li>
                     <li>
-                        <a href="http://www.runoob.com/css/css-tutorial.html">CSS教程</a>
-                    </li>
-                    <li>
-                        <a href="http://www.runoob.com/html/html5-intro.html">HTML5教程</a>
-                    </li>
-                    <li>
-                        <a href="http://www.runoob.com/css3/css3-tutorial.html">CSS3教程</a>
+                        <a href="http://www.runoob.com/css/css-tutorial.html">Topology</a>
                     </li>
                 </ul>
             </li>
             <!-- 二级菜单:indienova -->
             <li class="dropdown">
-                <a href="https://indienova.com/">
-                    indienova
+                <a>
+                    config
                 </a>
                 <ul class="dropdown-content">
                     <li>
-                        <a href="https://indienova.com/indie-game-news/">文章</a>
+                        <a>a</a>
                     </li>
                     <li>
-                        <a href="https://indienova.com/column/">专题</a>
-                    </li>
-                    <li>
-                        <a href="https://indienova.com/indie-game-development/">开发</a>
-                    </li>
-                    <li>
-                        <a href="https://indienova.com/usergames">游戏</a>
+                        <a>b</a>
                     </li>
                 </ul>
             </li>
             <!-- 二级菜单:哔哩哔哩动画 -->
             <li class="dropdown">
-                <a href="https://www.bilibili.com/">
-                    哔哩哔哩动画
+                <a>
+                    View
                 </a>
                 <ul class="dropdown-content">
                     <li>
-                        <a href="https://www.bilibili.com/v/douga/?spm_id_from=333.334.b_7072696d6172795f6d656e75.2">动画</a>
+                        <a>a</a>
                     </li>
                     <li>
-                        <a href="https://www.bilibili.com/anime/?spm_id_from=333.334.b_7072696d6172795f6d656e75.7">番剧</a>
+                        <a>b</a>
                     </li>
                 </ul>
             </li>
             <!-- 二级菜单:哔哩哔哩动画 -->
             <li class="dropdown">
-                <a href="https://www.bilibili.com/">
-                    哔哩哔哩动画
+                <a>
+                    Result
                 </a>
                 <ul class="dropdown-content">
                     <li>
-                        <a href="https://www.bilibili.com/v/douga/?spm_id_from=333.334.b_7072696d6172795f6d656e75.2">动画</a>
+                        <a>a</a>
                     </li>
                     <li>
-                        <a href="https://www.bilibili.com/anime/?spm_id_from=333.334.b_7072696d6172795f6d656e75.7">番剧</a>
+                        <a>b</a>
                     </li>
                 </ul>
             </li>
@@ -147,7 +137,9 @@
                     <li>
                         <a id="mask_1">
                             GoldTree
-                            <input type='file' name='swc_input' id='swc_input'/>
+                            <form action="/upload" method="post" enctype="multipart/form-data">
+                                <input type='file' name='swc_input' id='swc_input'/>
+                            </form>
                         </a>
                     </li>
                     <li>
@@ -169,6 +161,12 @@
             <!-- info on screen display -->
         </div>
     </div>
+    {% if recall %}
+    <h1>Hello {{ recall }}</h1>
+    {% endif %}
+    {% if precision %}
+    <h1>Hello {{ precision }}</h1>
+    {% endif %}
     <script type="text/javascript" src="{{url_for('static', filename='3dtools/three.min.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='3dtools/shark_viewer.js')}}"></script>
     <script type="text/javascript" src="{{url_for('static', filename='3dtools/index.js')}}"></script>
