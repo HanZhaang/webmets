@@ -5,12 +5,19 @@ let test_swc = null;
 
 let gold_txt = null;
 let test_txt = null;
+let vertical_txt = null;
 
 let method = 2;
-let rad_threshold = 'default'
-let len_threshold = 'default'
+let rad_threshold = -1;
+let len_threshold = 0.2;
 
 let mdata;
+let is_gold_show = true;
+let is_test_show = true;
+let is_vertical_show = true;
+let glob_recall= 0.0;
+let glob_precision = 0.0;
+
 function readGoldSwcFile(e) {
  const f = e.target.files[0];
   if (f) {
@@ -88,52 +95,284 @@ window.onload = () => {
   window.s = s;
   s.init();
   s.animate();
-  // const swc2 = sharkViewer.swcParser(document.getElementById("swc2").text);
-  // s.loadNeuron('swc2', '#ff0000', swc2);
-  s.loadNeuron('swc', null, swc);
   s.render();
 };
 
-function do_post_ch_method(to, p){
-    var myForm = document.createElement("form");
-    myForm.method = "post";
-    myForm.action = to;
 
-    var gold_swc_input = document.createElement("input");
-    var text_swc_input = document.createElement("input");
-    var method_input = document.createElement("input");
-    var rad_threshold_input = document.createElement("input");
-    var len_threshold_input = document.createElement("input");
-    if (gold_txt != null) {
-        gold_txt = gold_txt.replace(/[;]/g," ");
-        gold_txt = gold_txt.replace(/[\n\r]/g,";");
-    }
-    if (test_txt != null) {
-        test_txt = test_txt.replace(/[;]/g," ");
-        test_txt = test_txt.replace(/[\n\r]/g,";")
-    }
+function getLi(text) {
+    var li = document.createElement("li");
+    var a = document.createElement("a");
+    var node = document.createTextNode(text);
 
-    gold_swc_input.setAttribute("name", "gold_swc");
-    gold_swc_input.setAttribute("value", gold_txt);
-    text_swc_input.setAttribute("name", "test_swc");
-    text_swc_input.setAttribute("value", test_txt);
-
-    if (p == "geometry"){
-        method_input.setAttribute("name", "method");
-        method_input.setAttribute("value", method);
-        rad_threshold_input.setAttribute("name", "rad_threshold");
-        rad_threshold_input.setAttribute("value", rad_threshold);
-        len_threshold_input.setAttribute("name", "len_threshold");
-        len_threshold_input.setAttribute("value", len_threshold);
-    }
-
-    myForm.appendChild(gold_swc_input);
-    myForm.appendChild(text_swc_input);
-    myForm.appendChild(method_input);
-    myForm.appendChild(rad_threshold_input);
-    myForm.appendChild(len_threshold_input);
-
-    document.body.appendChild(myForm);
-    myForm.submit();
-    document.body.removeChild(myForm);
+    a.appendChild(node);
+    li.appendChild(a);
+    return li;
 }
+
+// geometry
+$(function() {
+$('#geometry').bind('click', function() {
+  $.post(
+    $SCRIPT_ROOT + '/geometry',
+    {gold_txt: gold_txt,
+     test_txt: test_txt,
+     method: method,
+     rad_threshold: rad_threshold,
+     len_threshold: len_threshold
+    },
+    function(result) {
+        var gold_swc_res = result.result.gold_swc;
+        var test_swc_res = result.result.test_swc;
+        var vertical_res = result.result.vertical_swc;
+
+        glob_recall = result.result.recall;
+        glob_precision = result.result.precision;
+
+        if (Object.keys(gold_swc).length > 0 && Object.keys(test_swc).length > 0) {
+            gold_txt = gold_swc_res;
+            test_txt = test_swc_res;
+            vertical_txt = vertical_res;
+            var item = document.getElementById("radiusRate");
+            item.value = 0.1;
+            adjust_radius(item);
+
+            var len_res = document.getElementById("lengthThreshold");
+            var rad_res = document.getElementById("radiusThreshold");
+            len_res.value = 0.2;
+            rad_res.value = -1.0;
+       }
+    },
+    "json"
+    );
+});
+});
+
+// topology
+$(function() {
+$('#topology').bind('click', function() {
+  $.post(
+    $SCRIPT_ROOT + '/topology',
+    {gold_txt: gold_txt,
+     test_txt: test_txt,
+     weight_mode: 1,
+     remove_spur: 0,
+     count_excess_nodes:true,
+     align_tree_by_root:false,
+     find_proper_root:true,
+     list_miss:true,
+     list_distant_matches: true,
+     list_continuations: true
+    },
+    function(result) {
+        var gold_swc_res = result.result.gold_swc;
+        var test_swc_res = result.result.test_swc;
+        var weight_sum = result.result.weight_sum;
+        var score_sum = result.result.score_sum;
+        var final_score = result.result.final_score;
+
+        if (Object.keys(gold_swc).length > 0 && Object.keys(test_swc).length > 0) {
+            gold_txt = gold_swc_res;
+            test_txt = test_swc_res;
+
+            var item = document.getElementById("radiusRate");
+            item.value = 0.1;
+            adjust_radius(item)
+       }
+       else {
+            alert("wrong")
+       }
+    },
+    "json"
+    );
+});
+});
+
+function lenTrhCh(newLen) {
+    new_len_threshold = parseFloat(newLen.value);
+    $.post(
+    $SCRIPT_ROOT + '/geometry',
+    {gold_txt: gold_txt,
+     test_txt: test_txt,
+     method: method,
+     rad_threshold: rad_threshold,
+     len_threshold: new_len_threshold
+    },
+    function(result) {
+        var gold_swc_res = result.result.gold_swc;
+        var test_swc_res = result.result.test_swc;
+        var vertical_res = result.result.vertical_swc;
+
+        var recall = result.result.recall;
+        var precision = result.result.recall;
+
+        if (Object.keys(gold_swc).length > 0 && Object.keys(test_swc).length > 0) {
+            gold_txt = gold_swc_res;
+            test_txt = test_swc_res;
+            vertical_txt = vertical_res;
+
+            var item = document.getElementById("radiusRate");
+            item.value = 0.1;
+            adjust_radius(item);
+       }
+    },
+    "json"
+    );
+};
+
+function radTrhCh(newRad) {
+    new_rad_threshold = parseFloat(newRad.value);
+    rad_method = document.getElementById("radiusMethod").value;
+    if (rad_method == 'relative') {
+        new_rad_threshold = -new_rad_threshold;
+        alert("rel");
+    }
+
+    $.post(
+    $SCRIPT_ROOT + '/geometry',
+    {gold_txt: gold_txt,
+     test_txt: test_txt,
+     method: method,
+     rad_threshold: new_rad_threshold,
+     len_threshold: len_threshold
+    },
+    function(result) {
+        var gold_swc_res = result.result.gold_swc;
+        var test_swc_res = result.result.test_swc;
+        var vertical_res = result.result.vertical_swc;
+
+        var recall = result.result.recall;
+        var precision = result.result.recall;
+
+        if (Object.keys(gold_swc).length > 0 && Object.keys(test_swc).length > 0) {
+            gold_txt = gold_swc_res;
+            test_txt = test_swc_res;
+            vertical_txt = vertical_res;
+
+            var item = document.getElementById("radiusRate");
+            item.value = 0.1;
+            adjust_radius(item)
+       }
+    },
+    "json"
+    );
+}
+
+function switch_display(item) {
+    if (item.id == "gold_display") {
+        swc_file = gold_swc;
+        if (is_gold_show) {
+            is_gold_show = false;
+            s.setNeuronVisible("gold", false);
+            s.render();
+            item.src = "/static/img/icon/view_off.png"
+        }
+        else {
+            is_gold_show = true;
+            s.setNeuronVisible("gold", true);
+            s.render();
+            item.src = "/static/img/icon/view.png"
+        }
+    }
+    else if (item.id == "vertical_display") {
+        if (is_vertical_show) {
+            is_vertical_show = false;
+            s.setNeuronVisible("vertical", false);
+            s.render()
+            item.src = "/static/img/icon/view_off.png"
+        }
+        else {
+            is_vertical_show = true;
+            s.setNeuronVisible("vertical", true);
+            s.render();
+            item.src = "/static/img/icon/view.png"
+        }
+    }
+    else {
+        swc_file = test_swc;
+        if (is_test_show) {
+            is_test_show = false;
+            s.setNeuronVisible("test", false);
+            s.render();
+            item.src = "/static/img/icon/view_off.png"
+        }
+        else {
+            is_test_show = true;
+            s.setNeuronVisible("test", true);
+            s.render();
+            item.src = "/static/img/icon/view.png"
+        }
+    }
+}
+
+function adjust_radius(item) {
+    radius_mul = item.value;
+    $.post(
+    $SCRIPT_ROOT + '/adjust_radius',
+    {gold_txt: gold_txt,
+     test_txt: test_txt,
+     vertical_txt: vertical_txt,
+     radius_mul: radius_mul,
+    },
+    function(result) {
+        var gold_swc_res = result.result.gold_swc;
+        var test_swc_res = result.result.test_swc;
+        var vertical_res = result.result.vertical_swc;
+
+        let tmp_gold_swc = sharkViewer.swcParser(gold_swc_res);
+        let tmp_test_swc = sharkViewer.swcParser(test_swc_res);
+        let tmp_vertical_swc = sharkViewer.swcParser(vertical_res);
+
+        if (Object.keys(tmp_gold_swc).length > 0) {
+            s.unloadNeuron('gold');
+            s.loadNeuron('gold', null, tmp_gold_swc);
+        }
+        if (Object.keys(tmp_test_swc).length > 0) {
+            s.unloadNeuron('test')
+            s.loadNeuron('test', null, tmp_test_swc);
+        }
+        s.unloadNeuron('vertical')
+        if (Object.keys(tmp_vertical_swc).length > 0) {
+            s.loadNeuron('vertical', null, tmp_vertical_swc)
+        }
+        s.render();
+    },
+    "json"
+    );
+}
+
+// topology
+$(function() {
+$('#save').bind('click', function() {
+  $.post(
+    $SCRIPT_ROOT + '/save',
+    {gold_txt: gold_txt,
+     test_txt: test_txt,
+     recall: glob_recall,
+     precision: glob_precision
+    },
+    function(result) {
+        if (result.result.state == true) {
+            try{
+                var link = document.createElement('a');
+                link.href = $SCRIPT_ROOT + '/download' + '?name=' + result.result.name + '&path=' + result.result.path;
+                link.click();
+                alert("successfully saved");
+            }
+            catch (error) {
+                alert("save error!");
+            }
+            $.post(
+                $SCRIPT_ROOT + '/zip_delete',
+                {name: result.result.name,
+                 path: result.result.path
+                },null,'json'
+            );
+        }
+        else {
+            alert("error");
+        }
+    },
+    "json"
+    );
+});
+});

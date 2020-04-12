@@ -20,6 +20,7 @@ body {
     bottom:0px;         /* 让它定位在底端 */
     overflow:hidden;    /* 溢出部分隐藏，防止出现第二个滚动条 */
     z-index:-1;         /* 设置元素堆叠顺序为最底层，为了不让它遮住下拉菜单的垂直列表项 */
+    font-family:Arial;
 
     width:100%;         /* 设置宽度 */
     /* 因为不是所有浏览器都支持CSS3中的calc()方法，所以这里写了三条去设置高度 */
@@ -27,6 +28,57 @@ body {
     height:-moz-calc(100% - 50px);
     height:calc(100% - 50px);
     background-color:#CDCDCD;    /* 这个背景颜色是测试用的，想删除可以删除 */
+}
+
+.leftBar {
+    float:left;
+    width: 20%;
+    height: 100%;
+    background: rgb(95,95,95);
+}
+
+.configZoo {
+    height:40%;
+    margin: 10pt 10pt 10pt 10pt;
+    padding: 5pt 10pt 5pt 10pt;
+    background: rgb(0,0,0);
+}
+
+.viewZoo {
+    height:40%;
+    margin: 10pt 10pt 10pt 10pt;
+    padding: 5pt 10pt 5pt 10pt;
+    background: rgb(0,0,0);
+}
+
+.zooLi {
+    list-style:none;
+}
+
+.zooTitle {
+    display:block;
+}
+
+.zooContent {
+    margin:0pt;
+    padding:0pt;
+}
+
+.configName {
+    margin:0pt;
+    width:80pt;
+    font-size:10pt;
+}
+
+.configInput {
+    width:40pt;
+    color:black;
+}
+
+#container {
+    float:right;
+    height:100%;
+    width:80%;
 }
 
 /* 设置显示网站页面框架的属性，因为只有一个框架我就直接设置<iframe>的属性 */
@@ -41,7 +93,7 @@ iframe {
     float:left;
     text-align:center;
     color:rgb(255,255,255);
-    width:100px;
+    width:20%;
     font-family:Arial;
 }
 
@@ -110,3 +162,20 @@ li:hover>a{
     top: 0;
     opacity: 0;
 }
+
+.icon {
+    vertical-align:middle;
+    width:15pt;
+    height:15pt;
+    margin-right:6pt;
+}
+
+.icon:hover{
+    background-color:rgb(119,119,119);
+}
+
+.methodSelect{
+    vertical-align:middle;
+    height:16.5pt;
+}
+
