@@ -17,3 +17,7 @@ Following this document to install flask environment
 ```
 python web_main.py
 ```
+
+## Useage
+1. English usage doc will be updated later
+![chinese useage doc](https://github.com/bennieHan/webmets/blob/master/readme_asserts/pic1.png)
