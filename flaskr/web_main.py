@@ -3,11 +3,15 @@ import shutil
 from flask import Flask, request, render_template, jsonify, send_from_directory
 from pymets.metric.length_metric import web_length_metric
 from pymets.metric.diadem_metric import web_diadem_metric
-import time,os
+import time, os
 app = Flask(__name__)
 
 ALLOWED_EXTENSIONS = {'swc', 'txt'}
-SCRIPT_ROOT = "D:\gitProject\mine\WebMets"
+SCRIPT_ROOT = os.path.abspath(os.path.dirname(os.getcwd()))
+print("SCRIPT_ROOT {}".format(
+    SCRIPT_ROOT
+))
+
 
 @app.route('/')
 def hello():
@@ -151,6 +155,5 @@ def zip_delete():
 
 
 if __name__ == "__main__":
-    file_name = time.strftime("%Y-%m-%d-%H-%M-%S", time.localtime())
-    print(file_name)
+    app.run()
     pass
