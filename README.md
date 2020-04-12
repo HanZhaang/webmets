@@ -17,7 +17,8 @@ Following this document to install flask environment
 ```
 python web_main.py
 ```
-
+5. check your localhost,my address is:
+http://127.0.0.1:5000/
 ## Useage
 1. English usage doc will be updated later
 ![chinese useage doc](https://github.com/bennieHan/webmets/blob/master/readme_asserts/pic1.png)
