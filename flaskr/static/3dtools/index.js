@@ -98,7 +98,6 @@ window.onload = () => {
   s.render();
 };
 
-
 function getLi(text) {
     var li = document.createElement("li");
     var a = document.createElement("a");
@@ -135,7 +134,7 @@ $('#geometry').bind('click', function() {
             var item = document.getElementById("radiusRate");
             item.value = 0.1;
             adjust_radius(item);
-
+            alert(glob_recall)
             var len_res = document.getElementById("lengthThreshold");
             var rad_res = document.getElementById("radiusThreshold");
             len_res.value = 0.2;
@@ -224,7 +223,6 @@ function radTrhCh(newRad) {
     rad_method = document.getElementById("radiusMethod").value;
     if (rad_method == 'relative') {
         new_rad_threshold = -new_rad_threshold;
-        alert("rel");
     }
 
     $.post(
@@ -241,7 +239,8 @@ function radTrhCh(newRad) {
         var vertical_res = result.result.vertical_swc;
 
         var recall = result.result.recall;
-        var precision = result.result.recall;
+        var precision = result.result.precision;
+        alert(recall)
 
         if (Object.keys(gold_swc).length > 0 && Object.keys(test_swc).length > 0) {
             gold_txt = gold_swc_res;
@@ -321,7 +320,6 @@ function adjust_radius(item) {
         let tmp_gold_swc = sharkViewer.swcParser(gold_swc_res);
         let tmp_test_swc = sharkViewer.swcParser(test_swc_res);
         let tmp_vertical_swc = sharkViewer.swcParser(vertical_res);
-
         if (Object.keys(tmp_gold_swc).length > 0) {
             s.unloadNeuron('gold');
             s.loadNeuron('gold', null, tmp_gold_swc);
