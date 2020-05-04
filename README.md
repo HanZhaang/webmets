@@ -1,9 +1,9 @@
 
 # Webmets
-A visuallization project for pymets
+A visuallization project for pyNeval
 ## Installiazation
-1. Install pymets, follow README of this project:
-[pymets](https://github.com/CSDLLab/PyMets)
+1. Install PyNeval, follow README of this project:
+[pyneval](https://github.com/CSDLLab/PyNeval.git)
 2. Clone this project:
 
 ```

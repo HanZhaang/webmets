@@ -1,8 +1,8 @@
 import sys,json
 import shutil
 from flask import Flask, request, render_template, jsonify, send_from_directory
-from pymets.metric.length_metric import web_length_metric
-from pymets.metric.diadem_metric import web_diadem_metric
+from pyneval.metric.length_metric import web_length_metric
+from pyneval.metric.diadem_metric import web_diadem_metric
 import time, os
 app = Flask(__name__)
 
@@ -73,7 +73,7 @@ def adjust_radius():
 
     new_gold_swc = adjust_radius_work(gold_swc, radius_mul)
     new_test_swc = adjust_radius_work(test_swc, radius_mul)
-    print(vertical_swc)
+
     new_vertical_swc = adjust_radius_work(vertical_swc, radius_mul)
 
     result = {
